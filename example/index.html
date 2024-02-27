@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mermaid-chart website</title>
+    <script src="https://4fbf-2a00-f41-1896-aa1a-bd5a-a1c6-d04d-f787.ngrok-free.app/js/plugin.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript">
+        const onSave = () => {
+          window.CP.saveData({
+            documentID: 'c2f481f9-433f-4491-a9d4-811d7150122f',
+            major: '0',
+            minor: '1',
+          });
+          return false;
+        }
+        const onCancel = () => {
+          window.CP.cancel(); return false;
+        }
+    </script>
+
+</head>
+
+<body class="bg-white">
+<header class="flex flex-row gap-4 px-10 py-3 w-full justify-end">
+    <button class="px-5 py-2 bg-sky-500 text-white rounded" onclick="onCancel()">Cancel</button>
+</header>
+<section id="content" role="main" class="p-5">
+<h1 class="text-3xl pb-8"> Mermaid-chart diagram selection</h1>
+    <div class="w-32 h-48 border flex alien-end p-2 flex-col justify-end">
+        <div class="grow text-center">Diagram 1</div>
+        <button class="px-5 py-2 bg-sky-500 text-white rounded" onclick="onSave()" type="button" id="button">Select</button>
+    </div>
+    <div class="pt-5"> Selected document data: <span id="selected"></span></div>
+</section>
+
+<script type="module">
+  const data = window.CP.getData();
+  document.getElementById("selected").innerHTML = JSON.stringify(data || {});
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+
+iframe {
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  outline: none;
+}
+
+.wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px 0;
+}
+
+.form-container {
+  flex-basis: 50%;
+  border-right: solid var(--border-color) 1px;
+}
+
+.diagram {
+  flex-basis: 50%;
+  padding: 20px;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 20px;
+}
+
+.diagram .select, .diagram .image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.diagram .select button {
+  padding: 20px 15px;
+}
+.diagram .selected button {
+   border-radius: 4px;
+   padding: 10px 5px;
+ }
+.diagram .image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.diagram.image img {
+  width: 100%;
+}

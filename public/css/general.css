@@ -1,0 +1,47 @@
+:root {
+    --text-color: #172b4d;
+    --input-text-color: #172b4d;
+    --label-color: #626f86;
+    --border-color: #091e4224;
+    --error-color: #cb2626;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+input[type="text"], select, textarea {
+    border: 1px solid var(--border-color);
+    border-radius: 3.01px;
+    font-size: 14px;
+    color: var(--input-text-color);
+    padding: 4px 5px;
+    width: 100%;
+}
+
+button {
+    border: solid var(--border-color) 1px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+}
+
+.form-row {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 8px;
+}
+.form-row .label {
+    color: var(--label-color);
+}

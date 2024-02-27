@@ -1,0 +1,53 @@
+{
+    "key": "mermaid-chart-app",
+    "name": "Mermaid chart application",
+    "description": "Mermaid chart application",
+    "baseUrl": "{{localBaseUrl}}",
+    "authentication": {
+        "type": "jwt"
+    },
+    "lifecycle": {
+        "installed": "/installed"
+    },
+    "scopes": [
+        "READ", "WRITE"
+    ],
+    "apiMigrations":{
+        "signed-install": true
+    },
+    "modules": {
+        "dynamicContentMacros": [
+            {
+                "key": "mermaid",
+                "name": {
+                    "value": "Mermaid chart"
+                },
+                "url": "/viewer",
+                "description": {
+                    "value": "Says 'Hello World'."
+                },
+                "outputType": "block",
+                "bodyType": "none",
+                "editor": {
+                    "url": "/editor",
+                    "width": "90%",
+                    "height": "90%",
+                    "cacheable": false,
+                    "editTitle": {
+                        "value": "Edit diagram"
+                    },
+                    "insertTitle": {
+                        "value": "Insert diagram"
+                    }
+                }
+            }
+        ],
+        "configurePage": {
+            "url": "/settings",
+            "name": {
+                "value": "Mermaid Chart Configure Page"
+            },
+            "key": "mc-config-page"
+        }
+    }
+}

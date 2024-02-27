@@ -1,0 +1,23 @@
+{{!< layout}}
+<div class="ac-content" id="content">
+    <div id="image"></div>
+    <div id="caption"></div>
+</div>
+<style>
+    #content {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+</style>
+<script type="module">
+  import {IMAGE_SIZES} from '/js/constatnts.js';
+  AP.confluence.getMacroData((data) => {
+    const img = document.createElement("img")
+    img.src = '/diagram?' + (new URLSearchParams({ ...data, jwt: "{{token}}" }).toString())
+    img.alt = data.title;
+    img.width = IMAGE_SIZES[data.size].width;
+    document.getElementById("image").appendChild(img);
+    document.getElementById("caption").innerText = data.caption;
+  })
+</script>

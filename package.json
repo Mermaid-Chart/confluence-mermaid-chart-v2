@@ -1,0 +1,31 @@
+{
+  "name": "mermaid-chart-macro",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --es-module-specifier-resolution=node app.js",
+    "watch-server": "nodemon --es-module-specifier-resolution=node -e js,hbs app.js",
+    "lint": "eslint app.js routes"
+  },
+  "dependencies": {
+    "@atlaskit/button": "^17.4.0",
+    "@atlaskit/section-message": "^6.4.19",
+    "atlassian-connect-express": "^10.0.0",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "errorhandler": "^1.5.1",
+    "express": "^4.18.2",
+    "express-hbs": "^2.5.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "nocache": "4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "longjohn": "^0.2.12",
+    "nodemon": "^2.0.4",
+    "sqlite3": "^5.1.7"
+  }
+}
