@@ -11,8 +11,5 @@
       "src": "/(.*)",
       "dest": "/app.js"
     }
-  ],
-  "scripts": {
-    "start": "node --es-module-specifier-resolution=node app.js"
-  }
+  ]
 }
