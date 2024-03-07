@@ -11,6 +11,7 @@
   "dependencies": {
     "@atlaskit/button": "^17.4.0",
     "@atlaskit/section-message": "^6.4.19",
+    "@upstash/redis": "^1.28.4",
     "atlassian-connect-express": "^10.0.2",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",

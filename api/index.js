@@ -32,6 +32,18 @@ import { createRequire } from "node:module";
 import routes from "../routes/index.js";
 import { readFileSync } from "fs";
 
+// Use Vercel Serverless Redis connection
+import { ServerlessRedisAdapter } from "../serverless-redis.js";
+
+ace.store.register(
+  "@upstash/redis", function (logger, opts) {
+    if (arguments.length === 0) {
+      return ServerlessRedisAdapter;
+    }
+    return new ServerlessRedisAdapter(logger, opts);
+  }
+);
+
 console.log("CWD is ", process.cwd());
 console.log("config.json is at ", resolve("config.json"));
 console.log("config.json is at ", createRequire(import.meta.url).resolve("../config.json"));
