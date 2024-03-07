@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node --es-module-specifier-resolution=node app.js",
-    "watch-server": "nodemon --es-module-specifier-resolution=node -e js,hbs app.js",
+    "start": "node scripts/server.js",
+    "watch-server": "nodemon -e js,hbs scripts/server.js",
     "lint": "eslint app.js routes"
   },
   "dependencies": {

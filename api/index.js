@@ -20,7 +20,6 @@ import ace from "atlassian-connect-express";
 import hbs from "express-hbs";
 
 // We also need a few stock Node modules
-import http from "http";
 import path from "path";
 import os from "os";
 import helmet from "helmet";
@@ -29,18 +28,20 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 
 // Routes live here; this is the C in MVC
-import routes from "./routes/index.js";
+import routes from "../routes/index.js";
+import { readFileSync } from "fs";
 
 // Bootstrap Express and atlassian-connect-express
 const app = express();
-const addon = ace(app);
+console.log("Config is: ", readFileSync("config.json", {encoding: "utf8"}), "and env is", app.get("env"));
+export const addon = ace(app);
 
 // See config.json
 const port = addon.config.port();
 app.set("port", port);
 
 // Log requests, using an appropriate formatter by env
-const devEnv = app.get("env") === "development";
+export const devEnv = app.get("env") === "development";
 app.use(morgan(devEnv ? "dev" : "combined"));
 
 // We don't want to log JWT tokens, for security reasons
@@ -48,8 +49,8 @@ morgan.token("url", redactJwtTokens);
 
 // Configure Handlebars
 // Testing of what runs in vercel
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // const viewsDir = path.join(__dirname, "views");
 
 const viewsDir = path.join(process.cwd(), "views");
@@ -98,13 +99,7 @@ if (devEnv) app.use(errorHandler());
 // Wire up routes
 routes(app, addon);
 
-// Boot the HTTP server
-http.createServer(app).listen(port, () => {
-  console.log("App server running at http://" + os.hostname() + ":" + port);
-
-  // Enables auto registration/de-registration of app into a host in dev mode
-  if (devEnv) addon.register();
-});
+export default app;
 
 function redactJwtTokens(req) {
   const url = req.originalUrl || req.url || "";
