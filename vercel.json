@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/app.js"
+    }
+  ],
+  "config": {
+    "nodeVersion": "18.14.x"
+  },
+  "scripts": {
+    "start": "node --es-module-specifier-resolution=node app.js"
+  }
+}
