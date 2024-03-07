@@ -47,9 +47,12 @@ app.use(morgan(devEnv ? "dev" : "combined"));
 morgan.token("url", redactJwtTokens);
 
 // Configure Handlebars
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const viewsDir = path.join(__dirname, "views");
+// Testing of what runs in vercel
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
+// const viewsDir = path.join(__dirname, "views");
+
+const viewsDir = path.join(process.cwd(), "views");
 const handlebarsEngine = hbs.express4({ partialsDir: viewsDir });
 app.engine("hbs", handlebarsEngine);
 app.set("view engine", "hbs");
