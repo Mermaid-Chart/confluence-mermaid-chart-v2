@@ -29,7 +29,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 
 // Routes live here; this is the C in MVC
-import routes from "./routes/index.js";
+import routes from "./routes";
 
 // Bootstrap Express and atlassian-connect-express
 const app = express();
@@ -47,12 +47,9 @@ app.use(morgan(devEnv ? "dev" : "combined"));
 morgan.token("url", redactJwtTokens);
 
 // Configure Handlebars
-// Testing of what runs in vercel
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-// const viewsDir = path.join(__dirname, "views");
-
-const viewsDir = path.join(process.cwd(), "views");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const viewsDir = path.join(__dirname, "views");
 const handlebarsEngine = hbs.express4({ partialsDir: viewsDir });
 app.engine("hbs", handlebarsEngine);
 app.set("view engine", "hbs");
