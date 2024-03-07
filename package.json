@@ -11,7 +11,7 @@
   "dependencies": {
     "@atlaskit/button": "^17.4.0",
     "@atlaskit/section-message": "^6.4.19",
-    "atlassian-connect-express": "^10.0.0",
+    "atlassian-connect-express": "^10.0.2",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
@@ -20,12 +20,14 @@
     "express-hbs": "^2.5.0",
     "helmet": "^7.1.0",
     "morgan": "^1.10.0",
-    "nocache": "4.0.0"
+    "nocache": "4.0.0",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "eslint": "^8.56.0",
     "longjohn": "^0.2.12",
-    "nodemon": "^2.0.4",
-    "sqlite3": "^5.1.7"
+    "nodemon": "^2.0.4"
   }
 }
