@@ -12,9 +12,6 @@
       "dest": "/app.js"
     }
   ],
-  "config": {
-    "nodeVersion": "18.14.x"
-  },
   "scripts": {
     "start": "node --es-module-specifier-resolution=node app.js"
   }
