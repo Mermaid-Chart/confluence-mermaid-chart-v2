@@ -2,7 +2,7 @@
   "development": {
     "port": 3000,
     "errorTemplate": true,
-    "localBaseUrl": "https://confluence.mermaidchart.com/",
+    "localBaseUrl": "https://confluence.mermaidchart.com",
     "store": {
       "adapter": "sequelize",
       "dialect": "sqlite3",
@@ -13,7 +13,7 @@
   "preview": {
     "port": "$PORT",
     "errorTemplate": true,
-    "localBaseUrl": "https://confluence.mermaidchart.com/",
+    "localBaseUrl": "https://confluence.mermaidchart.com",
     "allowedBaseUrls": ["$VERCEL_BRANCH_URL"],
     "store": {
       "adapter": "@upstash/redis",
@@ -24,7 +24,7 @@
   "production": {
     "port": "$PORT",
     "errorTemplate": true,
-    "localBaseUrl": "https://confluence.mermaidchart.com/",
+    "localBaseUrl": "https://confluence.mermaidchart.com",
     "allowedBaseUrls": ["$VERCEL_BRANCH_URL"],
     "store": {
       "adapter": "@upstash/redis",
