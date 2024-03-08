@@ -35,23 +35,33 @@ import { readFileSync } from "fs";
 // Use Vercel Serverless Redis connection
 import { ServerlessRedisAdapter } from "../serverless-redis.js";
 
-ace.store.register(
-  "@upstash/redis", function (logger, opts) {
-    if (arguments.length === 0) {
-      return ServerlessRedisAdapter;
-    }
-    return new ServerlessRedisAdapter(logger, opts);
+ace.store.register("@upstash/redis", function (logger, opts) {
+  if (arguments.length === 0) {
+    return ServerlessRedisAdapter;
   }
-);
+  return new ServerlessRedisAdapter(logger, opts);
+});
 
 console.log("CWD is ", process.cwd());
 console.log("config.json is at ", resolve("config.json"));
-console.log("config.json is at ", createRequire(import.meta.url).resolve("../config.json"));
-console.log("config.json contents are ", readFileSync("config.json", {encoding: "utf8"}));
+console.log(
+  "config.json is at ",
+  createRequire(import.meta.url).resolve("../config.json")
+);
+console.log(
+  "config.json contents are ",
+  readFileSync("config.json", { encoding: "utf8" })
+);
 
 console.log("atlassian-connect.json is at ", resolve("atlassian-connect.json"));
-console.log("atlassian-connect.json is at ", createRequire(import.meta.url).resolve("../atlassian-connect.json"));
-console.log("atlassian-connect.json contents are ", readFileSync("atlassian-connect.json", {encoding: "utf8"}));
+console.log(
+  "atlassian-connect.json is at ",
+  createRequire(import.meta.url).resolve("../atlassian-connect.json")
+);
+console.log(
+  "atlassian-connect.json contents are ",
+  readFileSync("atlassian-connect.json", { encoding: "utf8" })
+);
 
 // Bootstrap Express and atlassian-connect-express
 const app = express();
@@ -60,8 +70,8 @@ export const addon = ace(app, {
     descriptorTransformer(self, config) {
       console.log("Transformed descriptor is ", self);
       return self;
-    }
-  }
+    },
+  },
 });
 
 // See config.json
@@ -116,7 +126,7 @@ app.use(compression());
 app.use(addon.middleware());
 
 // Mount the static files directory
-const staticDir = path.join(__dirname, "public");
+const staticDir = path.join(process.cwd(), "public");
 app.use(express.static(staticDir));
 
 // Atlassian security policy requirements
