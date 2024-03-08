@@ -21,10 +21,6 @@ export default function routes(app, addon) {
     });
   };
 
-  //   app.get("/js/plugin.js", (req, res) => {
-  //     res.sendFile(require("path").join(__dirname, "../public/js/plugin.js"));
-  //   });
-
   app.get("/", (req, res) => {
     res.redirect("/atlassian-connect.json");
   });
