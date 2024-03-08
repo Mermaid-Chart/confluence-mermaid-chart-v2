@@ -9,19 +9,30 @@
       "type": "memory"
     }
   },
+  "preview": {
+    "port": "$PORT",
+    "errorTemplate": true,
+    "localBaseUrl": "https://confluence.mermaidchart.com/",
+    "allowedBaseUrls": [
+      "$VERCEL_BRANCH_URL"
+    ],
+    "store": {
+      "adapter": "@upstash/redis",
+      "url": "$KV_REST_API_URL",
+      "token": "$KV_REST_API_TOKEN"
+    }
+  },
   "production": {
     "port": "$PORT",
     "errorTemplate": true,
     "localBaseUrl": "https://confluence.mermaidchart.com/",
-    "store2": {
-      "type": "postgres",
-      "url": "postgresql://postgres:postgres@localhost:5432"
-    },
+    "allowedBaseUrls": [
+      "$VERCEL_BRANCH_URL"
+    ],
     "store": {
-      "adapter": "sequelize",
-      "dialect": "sqlite3",
-      "logging": false,
-      "type": "memory"
+      "adapter": "@upstash/redis",
+      "url": "$KV_REST_API_URL",
+      "token": "$KV_REST_API_TOKEN"
     },
     "whitelist": [
       "*.jira-dev.com",

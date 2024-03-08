@@ -20,36 +20,70 @@ import ace from "atlassian-connect-express";
 import hbs from "express-hbs";
 
 // We also need a few stock Node modules
-import http from "http";
 import path from "path";
 import os from "os";
 import helmet from "helmet";
 import nocache from "nocache";
 import { fileURLToPath } from "url";
-import { dirname } from "path";
+import { dirname, resolve } from "path";
+import { createRequire } from "node:module";
 
 // Routes live here; this is the C in MVC
-import routes from "./routes";
+import routes from "../routes/index.js";
+import { readFileSync } from "fs";
+
+// Use Vercel Serverless Redis connection
+import { ServerlessRedisAdapter } from "../serverless-redis.js";
+
+ace.store.register(
+  "@upstash/redis", function (logger, opts) {
+    if (arguments.length === 0) {
+      return ServerlessRedisAdapter;
+    }
+    return new ServerlessRedisAdapter(logger, opts);
+  }
+);
+
+console.log("CWD is ", process.cwd());
+console.log("config.json is at ", resolve("config.json"));
+console.log("config.json is at ", createRequire(import.meta.url).resolve("../config.json"));
+console.log("config.json contents are ", readFileSync("config.json", {encoding: "utf8"}));
+
+console.log("atlassian-connect.json is at ", resolve("atlassian-connect.json"));
+console.log("atlassian-connect.json is at ", createRequire(import.meta.url).resolve("../atlassian-connect.json"));
+console.log("atlassian-connect.json contents are ", readFileSync("atlassian-connect.json", {encoding: "utf8"}));
 
 // Bootstrap Express and atlassian-connect-express
 const app = express();
-const addon = ace(app);
+export const addon = ace(app, {
+  config: {
+    descriptorTransformer(self, config) {
+      console.log("Transformed descriptor is ", self);
+      return self;
+    }
+  }
+});
 
 // See config.json
 const port = addon.config.port();
 app.set("port", port);
 
+console.log("localBaseUrl is ", addon.config.localBaseUrl());
+
 // Log requests, using an appropriate formatter by env
-const devEnv = app.get("env") === "development";
+export const devEnv = app.get("env") === "development";
 app.use(morgan(devEnv ? "dev" : "combined"));
 
 // We don't want to log JWT tokens, for security reasons
 morgan.token("url", redactJwtTokens);
 
 // Configure Handlebars
+// Testing of what runs in vercel
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const viewsDir = path.join(__dirname, "views");
+// const viewsDir = path.join(__dirname, "views");
+
+const viewsDir = path.join(process.cwd(), "views");
 const handlebarsEngine = hbs.express4({ partialsDir: viewsDir });
 app.engine("hbs", handlebarsEngine);
 app.set("view engine", "hbs");
@@ -95,13 +129,7 @@ if (devEnv) app.use(errorHandler());
 // Wire up routes
 routes(app, addon);
 
-// Boot the HTTP server
-http.createServer(app).listen(port, () => {
-  console.log("App server running at http://" + os.hostname() + ":" + port);
-
-  // Enables auto registration/de-registration of app into a host in dev mode
-  if (devEnv) addon.register();
-});
+export default app;
 
 function redactJwtTokens(req) {
   const url = req.originalUrl || req.url || "";

@@ -4,13 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node --es-module-specifier-resolution=node app.js",
-    "watch-server": "nodemon --es-module-specifier-resolution=node -e js,hbs app.js",
+    "start": "node scripts/server.js",
+    "watch-server": "nodemon -e js,hbs scripts/server.js",
     "lint": "eslint app.js routes"
   },
   "dependencies": {
     "@atlaskit/button": "^17.4.0",
     "@atlaskit/section-message": "^6.4.19",
+    "@upstash/redis": "^1.28.4",
     "atlassian-connect-express": "^10.0.2",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
