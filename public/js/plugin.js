@@ -4,6 +4,7 @@ class CPlugin {
     window.parent.postMessage(data, '*')
   }
   saveData(data) {
+    console.log("Recieved data", data);
     if (!data.documentID || !(data.major.toString()) || !(data.minor.toString())) {
       throw new Error("Invalid saving diagram data");
     }
@@ -13,6 +14,7 @@ class CPlugin {
     })
   }
   cancel() {
+    console.log("Cancel called");
     this._sendMessage({
       action: "cancel"
     })
