@@ -12,10 +12,14 @@ window.AP.context.getToken((t) => {
 function Diagram (props) {
   let image = '';
   if (props.document.documentID) {
-    const params = new URLSearchParams({...props.document, jwt: JWTToken});
+    const svg = encodeURIComponent(props.document.diagramCode)
     image = html`<div class="image">
-        <img src="/diagram?${params.toString()}" alt="${props.document.title}" />
+       <img src="data:image/svg+xml,${svg}" alt="${props.document.title}" />
     </div>`;
+    // const params = new URLSearchParams({...props.document, jwt: JWTToken});
+    // image = html`<div class="image">
+    //     <img src="/diagram?${params.toString()}" alt="${props.document.title}" />
+    // </div>`;
   }
 
   return html`
@@ -48,7 +52,7 @@ function App () {
       setData(params);
     })
     window.AP.dialog.getButton("submit").bind(function () {
-      window.AP.confluence.saveMacro(dataRef.current);
+      window.AP.confluence.saveMacro({...dataRef.current, diagramCode: ''}, dataRef.current.diagramCode);
       return true;
     });
     window.onmessage = function(e) {

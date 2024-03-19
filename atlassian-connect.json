@@ -2,7 +2,7 @@
   "key": "mermaid-chart-app",
   "name": "Mermaid chart application",
   "description": "Mermaid chart application",
-  "baseUrl": "https://confluence.mermaidchart.com",
+  "baseUrl": "{{localBaseUrl}}",
   "authentication": {
     "type": "jwt"
   },
@@ -22,10 +22,10 @@
         },
         "url": "/viewer",
         "description": {
-          "value": "Says 'Hello World'."
+          "value": "Insert Mermaid chart"
         },
         "outputType": "block",
-        "bodyType": "none",
+        "bodyType": "plain-text",
         "editor": {
           "url": "/editor",
           "width": "90%",
@@ -39,13 +39,6 @@
           }
         }
       }
-    ],
-    "configurePage": {
-      "url": "/settings",
-      "name": {
-        "value": "Mermaid Chart Configure Page"
-      },
-      "key": "mc-config-page"
-    }
+    ]
   }
 }

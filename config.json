@@ -2,7 +2,6 @@
   "development": {
     "port": 3000,
     "errorTemplate": true,
-    "localBaseUrl": "https://confluence.mermaidchart.com",
     "store": {
       "adapter": "sequelize",
       "dialect": "sqlite3",
