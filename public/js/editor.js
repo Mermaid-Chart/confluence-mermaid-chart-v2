@@ -49,13 +49,15 @@ function App () {
 
   useEffect(() => {
     window.AP.confluence.getMacroBody((macroBody) => {
+      console.log('macroBody',macroBody);
       setData((data) => ({...data, diagramCode: macroBody}));
     });
-    window.AP.confluence.getMacroData(({diagramCode: _, ...params}) => {
+    window.AP.confluence.getMacroData((params) => {
       setData((data) => ({...data, ...params}));
-    })
+    });
     window.AP.dialog.getButton("submit").bind(function () {
-      window.AP.confluence.saveMacro({...dataRef.current, diagramCode: ''}, dataRef.current.diagramCode);
+      const {diagramCode: _, ...saveData} = dataRef.current
+      window.AP.confluence.saveMacro(saveData, dataRef.current.diagramCode);
       return true;
     });
     window.onmessage = function(e) {
