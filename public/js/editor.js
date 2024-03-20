@@ -48,8 +48,11 @@ function App () {
   }
 
   useEffect(() => {
-    window.AP.confluence.getMacroData((params) => {
-      setData(params);
+    window.AP.confluence.getMacroBody((macroBody) => {
+      setData((data) => ({...data, diagramCode: macroBody}));
+    });
+    window.AP.confluence.getMacroData(({diagramCode: _, ...params}) => {
+      setData((data) => ({...data, ...params}));
     })
     window.AP.dialog.getButton("submit").bind(function () {
       window.AP.confluence.saveMacro({...dataRef.current, diagramCode: ''}, dataRef.current.diagramCode);

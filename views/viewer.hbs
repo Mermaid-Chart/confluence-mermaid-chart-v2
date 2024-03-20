@@ -17,7 +17,9 @@
         imageContainer.innerHTML = macroBody;
     });
     AP.confluence.getMacroData(async (data) => {
-        document.getElementById('caption').innerText = data.caption;
+        if (data.caption) {
+            document.getElementById('caption').innerText = data.caption;
+        }
         imageContainer.style.width = `${IMAGE_SIZES[data.size].width}px`;
 
         // const container = document.getElementById('image');
