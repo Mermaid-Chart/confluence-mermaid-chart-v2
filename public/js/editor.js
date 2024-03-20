@@ -36,7 +36,7 @@ function App () {
   const [isFrame, openIframe] = useState(false);
   const [data, setData] = useState({
     caption: "",
-    size: "",
+    size: "small",
   });
   const dataRef = useRef();
   useEffect(() => {
@@ -49,17 +49,19 @@ function App () {
 
   useEffect(() => {
     window.AP.confluence.getMacroBody((macroBody) => {
-      console.log('macroBody',macroBody);
       setData((data) => ({...data, diagramCode: macroBody}));
     });
-    window.AP.confluence.getMacroData((params) => {
+    window.AP.confluence.getMacroData(({__bodyContent: _, ...params}) => {
       setData((data) => ({...data, ...params}));
     });
-    window.AP.dialog.getButton("submit").bind(function () {
+    window.AP.events.on("dialog.submit", async () => {
       const {diagramCode: _, ...saveData} = dataRef.current
-      window.AP.confluence.saveMacro(saveData, dataRef.current.diagramCode);
-      return true;
-    });
+      await window.AP.confluence.saveMacro(saveData, dataRef.current.diagramCode);
+
+      window.AP.confluence.closeMacroEditor();
+    })
+    window.AP.dialog.disableCloseOnSubmit();
+
     window.onmessage = function(e) {
       const action = e.data.action;
       switch (action) {

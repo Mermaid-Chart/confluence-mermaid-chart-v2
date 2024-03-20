@@ -20,7 +20,7 @@
         if (data.caption) {
             document.getElementById('caption').innerText = data.caption;
         }
-        imageContainer.style.width = `${IMAGE_SIZES[data.size].width}px`;
+        imageContainer.style.width = `${IMAGE_SIZES[data.size || "small"].width}px`;
 
         // const container = document.getElementById('image');
         // const img = document.createElement("img")
