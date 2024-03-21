@@ -50,6 +50,7 @@ export default function routes(app, addon) {
   app.get("/editor", (req, res) => {
     res.render("editor.hbs", {
       mcEditorUrl: process.env.MC_EDITOR_URL,
+      mcEditorEditUrl: process.env.MC_EDITOR_EDIT_URL,
     });
   });
   app.get("/settings", addon.authenticate(), async (req, res) => {

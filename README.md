@@ -5,6 +5,7 @@
 ```
 NODE_ENV=production
 MC_EDITOR_URL=https://www.mermaidchart.com/selection
+MC_EDITOR_EDIT_URL=https://test.mermaidchart.com/app/projects/
 ```
 2. Configure application with `config.json` file (set up domain and DB connection) for production env
 3. Run `npm run start`

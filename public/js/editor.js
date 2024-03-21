@@ -9,12 +9,12 @@ window.AP.context.getToken((t) => {
   JWTToken = t;
 })
 
-function Diagram (props) {
+function Diagram ({document, onOpenFrame}) {
   let image = '';
-  if (props.document.documentID) {
-    const svg = encodeURIComponent(props.document.diagramCode)
+  if (document.documentID) {
+    const svg = encodeURIComponent(document.diagramCode)
     image = html`<div class="image">
-       <img src="data:image/svg+xml,${svg}" alt="${props.document.title}" />
+       <img src="data:image/svg+xml,${svg}" alt="${document.title}" />
     </div>`;
     // const params = new URLSearchParams({...props.document, jwt: JWTToken});
     // image = html`<div class="image">
@@ -22,18 +22,26 @@ function Diagram (props) {
     // </div>`;
   }
 
+  const onEdit = () => {
+    onOpenFrame(`${mcEditorEditUrl}${document.projectID}/diagrams/${document.documentID}/version/v.${document.major}.${document.minor}/edit`);
+    return false
+  }
+
+  const editButton = html`<button type="button" onClick="${onEdit}">Edit diagram</button>`;
+
   return html`
       <${Fragment}>
         ${image}
         <div class="select ${image ? "selected" : ''}">
-          <button type="button" onClick="${props.onOpenFrame}">${image ? "Change" : "Select"} diagram</button>
+          ${image ? editButton : ""}
+          <button type="button" onClick="${() => onOpenFrame(mcEditorUrl)}">${image ? "Replace" : "Select"} diagram</button>
         </div>
       </${Fragment}>
   `
 }
 
 function App () {
-  const [isFrame, openIframe] = useState(false);
+  const [iframeURL, setIframeURL] = useState("");
   const [data, setData] = useState({
     caption: "",
     size: "small",
@@ -43,8 +51,17 @@ function App () {
     dataRef.current = data;
   }, [Object.values(data)])
 
-  const onOpenFrame = () => {
-    openIframe(true);
+  useEffect(() => {
+    if (data.documentID) {
+      window.AP.dialog.getButton('submit').enable();
+    } else {
+      window.AP.dialog.getButton('submit').disable();
+    }
+  }, [data.documentID]);
+
+  const onOpenFrame = (url) => {
+    // eslint-disable-next-line no-undef
+    setIframeURL(url);
   }
 
   useEffect(() => {
@@ -66,23 +83,23 @@ function App () {
       const action = e.data.action;
       switch (action) {
         case "cancel":
-          openIframe(false);
+          setIframeURL("");
           break;
 
         case "save":
           setData((prev) => ({...prev, ...e.data.data }));
-          openIframe(false);
+          setIframeURL("");
           break;
       }
     }
   }, []);
 
-  if (isFrame) {
+  if (iframeURL) {
     const iframeData = {
       document: data
     };
     return html`
-        <iframe src="${mcEditorUrl}" name="${JSON.stringify(iframeData)}" />
+        <iframe src="${iframeURL}" name="${JSON.stringify(iframeData)}" />
     `;
   }
 
