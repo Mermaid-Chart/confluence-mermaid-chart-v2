@@ -4,6 +4,7 @@
 1. Set up environment variables:
 ```
 NODE_ENV=production
+MC_CLIENT_ID=505827bd-631d-4bf7-b0a6-44ae0b6547b5
 MC_BASE_URL=https://test.mermaidchart.com
 ```
 2. Configure application with `config.json` file (set up domain and DB connection) for production env

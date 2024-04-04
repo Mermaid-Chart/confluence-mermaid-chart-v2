@@ -1,4 +1,5 @@
 // Entry point for the app
+globalThis.crypto ??= require("node:crypto").webcrypto
 
 // Express is the underlying that atlassian-connect-express uses:
 // https://expressjs.com
@@ -89,10 +90,6 @@ morgan.token("url", redactJwtTokens);
 
 // Configure Handlebars
 // Testing of what runs in vercel
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-// const viewsDir = path.join(__dirname, "views");
-
 const viewsDir = path.join(process.cwd(), "views");
 const handlebarsEngine = hbs.express4({ partialsDir: viewsDir });
 app.engine("hbs", handlebarsEngine);

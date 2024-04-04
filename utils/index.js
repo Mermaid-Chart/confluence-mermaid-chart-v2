@@ -26,25 +26,30 @@ const fetchToken = async (httpClient, atlassianAccountId) => {
 };
 const saveToken = async (httpClient, atlassianAccountId, token) => {
     return new Promise((resolve, reject) => {
-        httpClient.asUserByAccountId(atlassianAccountId).put(
-            {
-                url: `/rest/api/user/${atlassianAccountId}/property/token`,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({value: {token}}),
+        const requestOpt = {
+            url: `/rest/api/user/${atlassianAccountId}/property/token`,
+            headers: {
+                'Content-Type': 'application/json',
             },
-            function(err) {
-                if (err) {
-                    console.error(
-                        'Failed on saving user property "token"',
-                    );
-                    reject(err);
-                    return;
-                }
-                resolve(token);
-            },
-        );
+            body: JSON.stringify({value: {token}}),
+        }
+        const callback = (err, res, body) => {
+            if (err) {
+                return;
+            }
+            resolve(token);
+        }
+        httpClient.asUserByAccountId(atlassianAccountId).put(requestOpt, (err, res, body) => {
+            if (err || res.statusCode === 404) {
+                httpClient.asUserByAccountId(atlassianAccountId).post(requestOpt, (err2, res2, body2) => {
+                    if (err2 || res2.statusCode !== 200) {
+                        console.error('Failed on saving user property "token"', err2, res2.statusCode);
+                        return reject(err);
+                    }
+                });
+            }
+            resolve(token);
+        });
     });
 };
 
