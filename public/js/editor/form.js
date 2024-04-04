@@ -6,7 +6,7 @@ import {Diagram} from './diagram.js';
 
 const html = htm.bind(h);
 
-export function Form() {
+export function Form({mcAccessToken}) {
     const [iframeURL, setIframeURL] = useState('');
 
     const onOpenFrame = (url) => {
@@ -106,7 +106,7 @@ export function Form() {
                 </div>
             </div>
             <div class="diagram">
-                <${Diagram} document=${data} onOpenFrame="${onOpenFrame}"/>
+                <${Diagram} document=${data} onOpenFrame="${onOpenFrame}" mcAccessToken="${mcAccessToken}"/>
             </div>
         </div>
     `;

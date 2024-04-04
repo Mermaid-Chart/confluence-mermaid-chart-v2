@@ -7,16 +7,20 @@ import {Form} from './form.js';
 const html = htm.bind(h);
 
 function App() {
-    const [mcAccessToken, setMcAccessToken] = useState(window.mcAccessToken);
+    const [accessToken, setAccessToken] = useState(mcAccessToken);
 
-    if (!mcAccessToken) {
+    const onLogin = (token) => {
+        setAccessToken(token);
+    }
+
+    if (!accessToken) {
         return html`
-            <${Login} onLogin="${(token) => setMcAccessToken(token)}"/>
+            <${Login} onLogin="${onLogin}"/>
         `;
     }
 
     return html`
-        <${Form}/>
+        <${Form} mcAccessToken="${accessToken}"/>
     `;
 }
 

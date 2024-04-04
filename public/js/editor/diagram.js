@@ -3,7 +3,7 @@ import htm from 'https://esm.sh/htm';
 
 const html = htm.bind(h);
 
-export function Diagram({document, onOpenFrame}) {
+export function Diagram({document, onOpenFrame, mcAccessToken}) {
     let image = '';
     if (document.documentID) {
         const svg = encodeURIComponent(document.diagramCode);
@@ -13,9 +13,13 @@ export function Diagram({document, onOpenFrame}) {
             </div>`;
     }
 
+    const buildUrl = (pathname) => {
+        return `${MC_BASE_URL}/oauth/frame/?token=${mcAccessToken}&redirect=${pathname}`;
+    };
+
     const onEdit = () => {
-        onOpenFrame(
-            `${MC_BASE_URL}/app/projects/${document.projectID}/diagrams/${document.documentID}/version/v.${document.major}.${document.minor}/edit`);
+        onOpenFrame(buildUrl(
+            `/app/projects/${document.projectID}/diagrams/${document.documentID}/version/v.${document.major}.${document.minor}/edit`));
         return false;
     };
 
@@ -27,8 +31,8 @@ export function Diagram({document, onOpenFrame}) {
             ${image}
             <div class="select ${image ? 'selected' : ''}">
                 ${image ? editButton : ''}
-                <button type="button" onClick="${() => onOpenFrame(
-                        `${MC_BASE_URL}/app/plugins/confluence/select`)}">
+                <button type="button" onClick="${() => onOpenFrame(buildUrl(
+                        `/app/plugins/confluence/select`))}">
                     ${image ? 'Replace' : 'Select'} diagram
                 </button>
             </div>
