@@ -6,6 +6,10 @@
     --error-color: #cb2626;
 }
 
+html, body {
+    height: 100%;
+}
+
 *,
 *:before,
 *:after {

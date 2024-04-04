@@ -1,0 +1,20 @@
+{{!< layout}}
+
+<div class="container">
+    Authentication failed. <br />
+    {{errorMessage}} <br />
+    Please try again later
+</div>
+<script type="text/javascript">
+    const accessToken = "{{accessToken}}";
+    window.opener.postMessage({action: 'token', data: '{{accessToken}}'});
+</script>
+<style>
+    .container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+    }
+</style>

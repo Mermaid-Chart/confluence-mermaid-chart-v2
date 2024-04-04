@@ -49,3 +49,20 @@ iframe {
 .diagram.image img {
   width: 100%;
 }
+
+
+
+#login-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#login-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
