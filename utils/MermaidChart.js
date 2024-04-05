@@ -126,8 +126,8 @@ class MermaidChart {
     }
 
     async handleAuthorizationResponse(query) {
-        const authorizationToken = query.get('code');
-        const state = query.get('state');
+        const authorizationToken = query.code;
+        const state = query.code;
 
         if (!authorizationToken) {
             throw new RequiredParameterMissingError('token');
