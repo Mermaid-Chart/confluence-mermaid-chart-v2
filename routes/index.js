@@ -4,6 +4,8 @@ import {MermaidChart} from '../utils/MermaidChart.js';
 const MC_BASE_URL = process.env.MC_BASE_URL || "https://test.mermaidchart.com";
 
 export default function routes(app, addon) {
+
+
   const mermaidAPI = new MermaidChart({
     baseURL: MC_BASE_URL,
     clientID: process.env.MC_CLIENT_ID || "839d35ba-cfee-4c98-8cee-88f2d2caa0c4",
@@ -39,6 +41,10 @@ export default function routes(app, addon) {
       user = access_token ? await mermaidAPI.getUser(access_token) : undefined
     } catch (e) {}
 
+    if (!user) {
+      return res.redirect((await mermaidAPI.getAuthorizationData()).url).end();
+    }
+
     res.render("editor.hbs", {
       MC_BASE_URL: MC_BASE_URL,
       mcAccessToken: user ? access_token : '',
@@ -47,7 +53,7 @@ export default function routes(app, addon) {
     });
   });
 
-  app.get("/callback", async (req, res) => {
+  app.get("/callback", addon.authenticate(), async (req, res) => {
     let accessToken, errorMessage;
     try {
       accessToken = await mermaidAPI.handleAuthorizationResponse(req.query)

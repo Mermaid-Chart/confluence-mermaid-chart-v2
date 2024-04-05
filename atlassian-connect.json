@@ -1,9 +1,9 @@
 {
-  "key": "mermaid-chart-app",
-  "name": "Mermaid chart application",
-  "description": "Mermaid chart application",
-  "//baseUrl": "{{localBaseUrl}}",
-  "baseUrl": "https://confluence.mermaidchart.com",
+  "key": "mermaid-chart-app22",
+  "name": "Mermaid chart application22",
+  "description": "Mermaid chart application22",
+  "baseUrl": "{{localBaseUrl}}",
+  "//baseUrl": "https://confluence.mermaidchart.com",
   "authentication": {
     "type": "jwt"
   },
@@ -17,9 +17,9 @@
   "modules": {
     "dynamicContentMacros": [
       {
-        "key": "mermaid",
+        "key": "mermaid2",
         "name": {
-          "value": "Mermaid chart"
+          "value": "Mermaid chart2"
         },
         "icon": {
           "width": 80,
