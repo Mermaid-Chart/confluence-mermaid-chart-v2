@@ -33,7 +33,6 @@ export default function routes(app, addon) {
     res.render("editor.hbs", {
       MC_BASE_URL: MC_BASE_URL,
       mcAccessToken: user ? access_token : '',
-      user: JSON.stringify(user),
       loginURL: auth.url,
       loginState: auth.state
     });
