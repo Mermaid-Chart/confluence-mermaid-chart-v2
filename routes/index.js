@@ -41,17 +41,15 @@ export default function routes(app, addon) {
       user = access_token ? await mermaidAPI.getUser(access_token) : undefined
     } catch (e) {}
 
-    if (!user) {
-      return res.redirect((await mermaidAPI.getAuthorizationData()).url);
-    }
-
     res.render("editor.hbs", {
       MC_BASE_URL: MC_BASE_URL,
       mcAccessToken: user ? access_token : '',
-      loginUrl: (await mermaidAPI.getAuthorizationData()).url,
-      debug: JSON.stringify(mermaidAPI.pendingStates),
     });
   });
+
+  app.get("/login", async (req, res) => {
+    return res.redirect((await mermaidAPI.getAuthorizationData()).url);
+  })
 
   app.get("/callback", addon.authenticate(), async (req, res) => {
     let accessToken, errorMessage;

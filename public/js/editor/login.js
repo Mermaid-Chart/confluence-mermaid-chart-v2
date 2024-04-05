@@ -37,7 +37,7 @@ export function Login({onLogin}) {
         options += ',height=' + height;
         options += ',top=' + top;
         options += ',left=' + left;
-        const windowObjectReference = window.open(loginUrl, 'loginWindow',
+        const windowObjectReference = window.open('/login', 'loginWindow',
             options);
         windowObjectReference.focus();
         return false;

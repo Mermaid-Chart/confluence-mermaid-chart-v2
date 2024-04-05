@@ -8,10 +8,10 @@
     {{else}}
         Redirecting...
     {{/if}}
-    {{debug}}
 </div>
 <script type="text/javascript">
     window.opener.postMessage({action: 'token', data: '{{accessToken}}'});
+    window.close();
 </script>
 <style>
     .container {
