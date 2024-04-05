@@ -36,14 +36,13 @@ export default function routes(app, addon) {
     let access_token, user;
     try {
       access_token = await fetchToken(req.context.http, req.context.userAccountId)
-      console.log('access_token', access_token);
       user = access_token ? await mermaidAPI.getUser(access_token) : undefined
     } catch (e) {}
 
     res.render("editor.hbs", {
       MC_BASE_URL: MC_BASE_URL,
       mcAccessToken: user ? access_token : '',
-      loginUrl: (await mermaidAPI.getAuthorizationData()).url
+      loginUrl: (await mermaidAPI.getAuthorizationData()).url,
     });
   });
 
