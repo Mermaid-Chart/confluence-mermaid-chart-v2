@@ -1,7 +1,6 @@
 import {h} from 'https://esm.sh/preact';
 import {useEffect, useState} from 'https://esm.sh/preact/hooks';
 import htm from 'https://esm.sh/htm';
-import {as} from '@upstash/redis/zmscore-5d82e632.js';
 
 const html = htm.bind(h);
 
