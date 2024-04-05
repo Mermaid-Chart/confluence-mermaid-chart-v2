@@ -2,6 +2,7 @@
   "key": "mermaid-chart-app",
   "name": "Mermaid chart application",
   "description": "Mermaid chart application",
+  "//baseUrl": "{{localBaseUrl}}",
   "baseUrl": "https://confluence.mermaidchart.com",
   "authentication": {
     "type": "jwt"
@@ -9,7 +10,7 @@
   "lifecycle": {
     "installed": "/installed"
   },
-  "scopes": ["READ", "WRITE"],
+  "scopes": ["READ", "WRITE", "ACT_AS_USER"],
   "apiMigrations": {
     "signed-install": true
   },
@@ -33,8 +34,8 @@
         "bodyType": "plain-text",
         "editor": {
           "url": "/editor",
-          "width": "90%",
-          "height": "90%",
+          "width": "95%",
+          "height": "95%",
           "cacheable": false,
           "editTitle": {
             "value": "Edit diagram"

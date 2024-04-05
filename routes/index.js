@@ -1,95 +1,64 @@
-import fetch from "node-fetch";
+import {fetchToken, saveToken} from '../utils/index.js';
+import {MermaidChart} from '../utils/MermaidChart.js';
+
+const MC_BASE_URL = process.env.MC_BASE_URL || "https://test.mermaidchart.com";
 
 export default function routes(app, addon) {
-  const fetchToken = async (req) => {
-    return new Promise((resolve, reject) => {
-      const httpClient = addon.httpClient(req);
-      httpClient.get(
-        "/rest/atlassian-connect/1/addons/mermaid-chart-app/properties/security_token?jsonValue=true",
-        function (err, _, body) {
-          if (err) {
-            console.error(
-              'Failed on reading application property "security_token"'
-            );
-            reject(err);
-            return;
-          }
-          const response = JSON.parse(body);
-          resolve((response.value || {}).securityToken || "");
-        }
-      );
-    });
-  };
+  const mermaidAPI = new MermaidChart({
+    baseURL: MC_BASE_URL,
+    clientID: process.env.MC_CLIENT_ID || "839d35ba-cfee-4c98-8cee-88f2d2caa0c4",
+    redirectURI: `${addon.config.localBaseUrl()}/callback`,
+  })
 
   app.get("/", (req, res) => {
     res.redirect("/atlassian-connect.json");
   });
-  app.get("/diagram", addon.checkValidToken(), async (req, res) => {
+
+  app.post("/token", addon.checkValidToken(), async (req, res) => {
+    const token = req.body.token;
+    if (!token) {
+      return res.status(400).end();
+    }
     try {
-      const token = await fetchToken(req);
-      const { documentID, major, minor } = req.query;
-      const response = await fetch(
-        `https://www.mermaidchart.com/raw/${documentID}?version=v${major}.${minor}&theme=light&format=svg`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      res.set("Content-Type", "image/svg+xml");
-      res.write(await response.text());
-      res.end();
+      await saveToken(req.context.http, req.context.userAccountId, token)
+      res.status(201).end();
     } catch (e) {
-      console.error(e);
+      console.error(e)
       res.status(503).end();
     }
-  });
+  })
+
   app.get("/viewer", addon.authenticate(), (req, res) => {
     res.render("viewer.hbs");
   });
-  app.get("/editor", (req, res) => {
+
+  app.get("/editor", addon.authenticate(), async (req, res) => {
+    let access_token, user;
+    try {
+      access_token = await fetchToken(req.context.http, req.context.userAccountId)
+      console.log('access_token', access_token);
+      user = access_token ? await mermaidAPI.getUser(access_token) : undefined
+    } catch (e) {}
+
     res.render("editor.hbs", {
-      mcEditorUrl: process.env.MC_EDITOR_URL,
-      mcEditorEditUrl: process.env.MC_EDITOR_EDIT_URL,
+      MC_BASE_URL: MC_BASE_URL,
+      mcAccessToken: user ? access_token : '',
+      loginUrl: (await mermaidAPI.getAuthorizationData()).url
     });
   });
-  app.get("/settings", addon.authenticate(), async (req, res) => {
+
+  app.get("/callback", async (req, res) => {
+    let accessToken, errorMessage;
     try {
-      res.render("settings.hbs", {
-        securityToken: await fetchToken(req),
-      });
+      accessToken = await mermaidAPI.handleAuthorizationResponse(req.query)
     } catch (e) {
-      res.render("error.hbs");
-    }
-  });
-  app.post("/settings", addon.checkValidToken(), async (req, res) => {
-    const { securityToken } = req.body;
-    const userResponse = await fetch(
-      `https://www.mermaidchart.com/rest-api/users/me`,
-      {
-        headers: {
-          Authorization: `Bearer ${securityToken}`,
-        },
-      }
-    );
-    if (!userResponse.ok) {
-      res.status(400).end();
-      return;
+      errorMessage = e.message;
     }
 
-    const httpClient = addon.httpClient(req);
-    httpClient.put(
-      {
-        url: "/rest/atlassian-connect/1/addons/mermaid-chart-app/properties/security_token",
-        body: JSON.stringify({ securityToken }),
-      },
-      function (err) {
-        if (err) {
-          console.error(err);
-          res.status(503).end();
-        }
-        res.end();
-      }
-    );
-  });
+    res.render("authCallback.hbs", {
+      accessToken,
+      errorMessage
+    })
+
+  })
 }
