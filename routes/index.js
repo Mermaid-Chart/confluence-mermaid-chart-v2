@@ -51,7 +51,7 @@ export default function routes(app, addon) {
     return res.redirect((await mermaidAPI.getAuthorizationData()).url);
   })
 
-  app.get("/callback", addon.authenticate(), async (req, res) => {
+  app.get("/callback", async (req, res) => {
     let accessToken, errorMessage;
     try {
       accessToken = await mermaidAPI.handleAuthorizationResponse(req.query)
