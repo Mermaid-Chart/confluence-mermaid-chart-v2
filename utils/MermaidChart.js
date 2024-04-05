@@ -2,7 +2,7 @@ import {v4 as uuid} from 'uuid';
 import fetch from 'node-fetch';
 import {getEncodedSHA256Hash} from './index.js';
 
-const defaultBaseURL = 'https://www.mermaidchart.com';
+const defaultBaseURL = 'https://test.mermaidchart.com';
 const authorizationURLTimeout = 60000;
 
 class MermaidChart {

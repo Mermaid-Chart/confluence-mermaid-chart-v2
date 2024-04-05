@@ -1,7 +1,7 @@
 import {fetchToken, saveToken} from '../utils/index.js';
 import {MermaidChart} from '../utils/MermaidChart.js';
 
-const MC_BASE_URL = process.env.MC_BASE_URL || "https://www.mermaidchart.com";
+const MC_BASE_URL = process.env.MC_BASE_URL || "https://test.mermaidchart.com";
 
 export default function routes(app, addon) {
   const mermaidAPI = new MermaidChart({
@@ -49,13 +49,12 @@ export default function routes(app, addon) {
 
   app.get("/callback", async (req, res) => {
     let accessToken, errorMessage;
-    // try {
-    //   accessToken = await mermaidAPI.handleAuthorizationResponse(req.query)
-    // } catch (e) {
-    //   errorMessage = e.message;
-    // }
+    try {
+      accessToken = await mermaidAPI.handleAuthorizationResponse(req.query)
+    } catch (e) {
+      errorMessage = e.message;
+    }
 
-    accessToken = "test"
     res.render("authCallback.hbs", {
       accessToken,
       errorMessage

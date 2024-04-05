@@ -1,12 +1,15 @@
 {{!< layout}}
 
 <div class="container">
-    Authentication failed. <br />
-    {{errorMessage}} <br />
-    Please try again later
+    {{#if errorMessage}}
+        Authentication failed. <br />
+        {{errorMessage}} <br />
+        Please try again later
+    {{else}}
+        Redirecting...
+    {{/if}}
 </div>
 <script type="text/javascript">
-    const accessToken = "{{accessToken}}";
     window.opener.postMessage({action: 'token', data: '{{accessToken}}'});
 </script>
 <style>

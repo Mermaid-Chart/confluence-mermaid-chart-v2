@@ -1,6 +1,4 @@
 // Entry point for the app
-globalThis.crypto ??= require("node:crypto").webcrypto
-
 // Express is the underlying that atlassian-connect-express uses:
 // https://expressjs.com
 import express from "express";
