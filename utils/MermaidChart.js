@@ -168,7 +168,10 @@ class MermaidChart {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-        return (await response.json()).data;
+        if (!response.ok) {
+            throw new OAuthError("Invalid token to get user info");
+        }
+        return (await response.json());
     }
 
     getEditURL(
