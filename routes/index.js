@@ -6,7 +6,7 @@ const MC_BASE_URL = process.env.MC_BASE_URL || "https://www.mermaidchart.com";
 export default function routes(app, addon) {
   const mermaidAPI = new MermaidChart({
     baseURL: MC_BASE_URL,
-    clientID: process.env.MC_CLIENT_ID || "505827bd-631d-4bf7-b0a6-44ae0b6547b5",
+    clientID: process.env.MC_CLIENT_ID || "839d35ba-cfee-4c98-8cee-88f2d2caa0c4",
     redirectURI: `${addon.config.localBaseUrl()}/callback`,
   })
 
