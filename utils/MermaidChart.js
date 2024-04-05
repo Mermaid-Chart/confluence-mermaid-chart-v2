@@ -106,8 +106,8 @@ class MermaidChart {
             scope: scope ?? 'email',
         };
 
-        setTimeout(() => {
-            delete this.delCodeVerifier(stateID);
+        setTimeout(async () => {
+            await this.delCodeVerifier(stateID);
         }, 5 * 60 * 1000);
 
         const url = `${this.baseURL}${this.URLS.oauth.authorize(params)}`;
@@ -129,7 +129,7 @@ class MermaidChart {
             throw new RequiredParameterMissingError('state');
         }
 
-        const codeVerifier = this.getCodeVerifier(state);
+        const codeVerifier = await this.getCodeVerifier(state);
         // Check if it is a valid auth request started by the extension
         if (!codeVerifier) {
             throw new OAuthError('invalid_state');
@@ -155,9 +155,9 @@ class MermaidChart {
                 `invalid_token ${tokenResponse.status} ${tokenResponse.statusText}`);
         }
 
-        this.setToken(state, (await tokenResponse.json()).access_token)
-        setTimeout(() => {
-            delete this.delToken(state);
+        await this.setToken(state, (await tokenResponse.json()).access_token)
+        setTimeout(async () => {
+            await this.delToken(state);
         }, 30 * 60 * 1000);
     }
 
