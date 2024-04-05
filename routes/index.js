@@ -16,20 +16,6 @@ export default function routes(app, addon) {
     res.redirect("/atlassian-connect.json");
   });
 
-  app.post("/token", addon.checkValidToken(), async (req, res) => {
-    const token = req.body.token;
-    if (!token) {
-      return res.status(400).end();
-    }
-    try {
-      await saveToken(req.context.http, req.context.userAccountId, token)
-      res.status(201).end();
-    } catch (e) {
-      console.error(e)
-      res.status(503).end();
-    }
-  })
-
   app.get("/viewer", addon.authenticate(), (req, res) => {
     res.render("viewer.hbs");
   });
@@ -51,8 +37,20 @@ export default function routes(app, addon) {
     });
   });
 
-  app.get("/login", async (req, res) => {
-    return res.redirect((await mermaidAPI.getAuthorizationData()).url);
+  app.get("/check_token", addon.checkValidToken(), async (req, res) => {
+    const token = mermaidAPI.accessTokenStore[req.query.state || ''];
+    if (!req.query.state || !token) {
+      return res.status(404).end();
+    }
+    delete mermaidAPI.accessTokenStore[req.query.state]
+
+    try {
+      await saveToken(req.context.http, req.context.userAccountId, token)
+      return res.json({ token }).end();
+    } catch (e) {
+      console.error(e)
+      res.status(503).end();
+    }
   })
 
   app.get("/callback", async (req, res) => {

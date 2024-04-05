@@ -1,6 +1,7 @@
 import {h} from 'https://esm.sh/preact';
 import {useEffect, useState} from 'https://esm.sh/preact/hooks';
 import htm from 'https://esm.sh/htm';
+import {as} from '@upstash/redis/zmscore-5d82e632.js';
 
 const html = htm.bind(h);
 
@@ -26,11 +27,6 @@ export function Login({onLogin}) {
                 }
             }
         });
-        const bc = new BroadcastChannel("mc")
-        bc.onmessage = (event) => {
-            console.log('event', event);
-            // handle event.data posted from your popup
-        }
     }, []);
 
     const onLoginClick = () => {
@@ -46,10 +42,19 @@ export function Login({onLogin}) {
             options);
         windowObjectReference.focus();
 
-        const int = setInterval(() => {
-            console.log(windowObjectReference);
-            // clearInterval(int);
-        }, 1000)
+        const callback = async () => {
+            const res = await fetch(`/check_token?state=${loginState}`, {
+                headers: {
+                    Authorization: `JWT ${JWTToken}`,
+                },
+            });
+            if (res.ok) {
+                onLogin((await res.json()).token)
+            } else {
+                setTimeout(callback, 500);
+            }
+        }
+        setTimeout(callback, 500);
 
         return false;
     };

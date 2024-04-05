@@ -8,9 +8,7 @@
     {{else}}
         Redirecting...
         <script type="text/javascript">
-            const bc = new BroadcastChannel("mc")
-            bc.postMessage("data to be handled on your opener")
-            // window.close();
+            window.close();
         </script>
     {{/if}}
 </div>

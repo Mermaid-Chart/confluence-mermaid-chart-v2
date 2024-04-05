@@ -154,6 +154,9 @@ class MermaidChart {
         }
 
         this.accessTokenStore[state] = (await tokenResponse.json()).access_token;
+        setTimeout(() => {
+            delete this.accessTokenStore[state];
+        }, 30 * 60 * 1000)
     }
 
     async getUser(accessToken) {
