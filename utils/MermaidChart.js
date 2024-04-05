@@ -106,9 +106,9 @@ class MermaidChart {
         };
 
         // Deletes the state after 60 seconds
-        setTimeout(() => {
-            delete this.pendingStates[stateID];
-        }, authorizationURLTimeout);
+        // setTimeout(() => {
+        //     delete this.pendingStates[stateID];
+        // }, authorizationURLTimeout);
 
         const url = `${this.baseURL}${this.URLS.oauth.authorize(params)}`;
         return {
@@ -154,22 +154,6 @@ class MermaidChart {
         }
 
         return (await tokenResponse.json()).data.access_token;
-    }
-
-    /**
-     * These two methods are used together in order to "persist" the data across the auth process
-     * As this api object will be recreated on load of redirect call
-     * It is used after getAuthorizationData is called, and before handleResponse to ensure that the state created
-     * in getAuthData exists
-     * */
-    setPendingState(state, verifier) {
-        this.pendingStates[state] = {
-            codeVerifier: verifier,
-        };
-    }
-
-    getCodeVerifier(state) {
-        return this.pendingStates[state].codeVerifier;
     }
 
     async getUser(accessToken) {
