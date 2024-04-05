@@ -10,6 +10,7 @@ export default function routes(app, addon) {
     baseURL: MC_BASE_URL,
     clientID: process.env.MC_CLIENT_ID || "839d35ba-cfee-4c98-8cee-88f2d2caa0c4",
     redirectURI: `${addon.config.localBaseUrl()}/callback`,
+    addon,
   })
 
   app.get("/", (req, res) => {
@@ -38,11 +39,14 @@ export default function routes(app, addon) {
   });
 
   app.get("/check_token", addon.checkValidToken(), async (req, res) => {
-    const token = mermaidAPI.accessTokenStore[req.query.state || ''];
-    if (!req.query.state || !token) {
+    if (!req.query.state) {
       return res.status(404).end();
     }
-    delete mermaidAPI.accessTokenStore[req.query.state]
+    const token = await mermaidAPI.getToken(req.query.state);
+    if (!token) {
+      return res.status(404).end();
+    }
+    await mermaidAPI.delToken(req.query.state);
 
     try {
       await saveToken(req.context.http, req.context.userAccountId, token)

@@ -3,6 +3,7 @@ import {useEffect, useState} from 'https://esm.sh/preact/hooks';
 import htm from 'https://esm.sh/htm';
 
 const html = htm.bind(h);
+let timeout;
 
 export function Login({onLogin}) {
     const [error, setError] = useState('');
@@ -50,10 +51,14 @@ export function Login({onLogin}) {
             if (res.ok) {
                 onLogin((await res.json()).token)
             } else {
-                setTimeout(callback, 500);
+                timeout = setTimeout(callback, 500);
             }
         }
-        setTimeout(callback, 500);
+        if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+        }
+        timeout = setTimeout(callback, 500);
 
         return false;
     };

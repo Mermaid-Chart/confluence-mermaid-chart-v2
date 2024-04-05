@@ -4,12 +4,13 @@ import {getEncodedSHA256Hash} from './index.js';
 
 const defaultBaseURL = 'https://test.mermaidchart.com';
 
+const CLIENT_KEY = 'all';
+
 class MermaidChart {
+    addon;
     clientID;
     baseURL;
     axios;
-    pendingStates = {};
-    accessTokenStore = {};
     redirectURI;
     URLS = {
         oauth: {
@@ -60,7 +61,8 @@ class MermaidChart {
         },
     };
 
-    constructor({clientID, baseURL, redirectURI}) {
+    constructor({clientID, baseURL, redirectURI, addon}) {
+        this.addon = addon;
         this.clientID = clientID;
         this.setBaseURL(baseURL || defaultBaseURL);
         if (redirectURI) {
@@ -88,10 +90,9 @@ class MermaidChart {
         }
 
         const stateID = state ?? uuid();
+        const codeVerifier= uuid();
 
-        this.pendingStates[stateID] = {
-            codeVerifier: uuid(),
-        };
+        await this.setCodeVerifier(stateID, codeVerifier);
 
         const params = {
             client_id: this.clientID,
@@ -99,14 +100,14 @@ class MermaidChart {
             response_type: 'code',
             code_challenge_method: 'S256',
             code_challenge: await getEncodedSHA256Hash(
-                this.pendingStates[stateID].codeVerifier,
+                codeVerifier,
             ),
             state: stateID,
             scope: scope ?? 'email',
         };
 
         setTimeout(() => {
-            delete this.pendingStates[stateID];
+            delete this.delCodeVerifier(stateID);
         }, 5 * 60 * 1000);
 
         const url = `${this.baseURL}${this.URLS.oauth.authorize(params)}`;
@@ -128,9 +129,9 @@ class MermaidChart {
             throw new RequiredParameterMissingError('state');
         }
 
-        const pendingState = this.pendingStates[state];
+        const codeVerifier = this.getCodeVerifier(state);
         // Check if it is a valid auth request started by the extension
-        if (!pendingState) {
+        if (!codeVerifier) {
             throw new OAuthError('invalid_state');
         }
 
@@ -140,23 +141,24 @@ class MermaidChart {
                 body: JSON.stringify({
                     client_id: this.clientID,
                     redirect_uri: this.redirectURI,
-                    code_verifier: pendingState.codeVerifier,
+                    code_verifier: codeVerifier,
                     code: authorizationToken,
                 }),
                 headers: {
                     'Content-type': 'application/json',
                 },
-            }
+            },
         );
 
         if (!tokenResponse.ok) {
-            throw new OAuthError(`invalid_token ${tokenResponse.status} ${tokenResponse.statusText}`);
+            throw new OAuthError(
+                `invalid_token ${tokenResponse.status} ${tokenResponse.statusText}`);
         }
 
-        this.accessTokenStore[state] = (await tokenResponse.json()).access_token;
+        this.setToken(state, (await tokenResponse.json()).access_token)
         setTimeout(() => {
-            delete this.accessTokenStore[state];
-        }, 30 * 60 * 1000)
+            delete this.delToken(state);
+        }, 30 * 60 * 1000);
     }
 
     async getUser(accessToken) {
@@ -194,6 +196,34 @@ class MermaidChart {
             this.URLS.raw(document, theme).svg
         );
         return raw.data;
+    }
+
+    async getCodeVerifier(state) {
+        return await this.addon.settings.get(`state:${state}:code`, CLIENT_KEY);
+    }
+
+    async setCodeVerifier(state, code) {
+        return await this.addon.settings.set(`state:${state}:code`, code,
+            CLIENT_KEY);
+    }
+
+    async delCodeVerifier(state) {
+        return await this.addon.settings.del(`state:${state}:code`, CLIENT_KEY);
+    }
+
+    async getToken(state) {
+        return await this.addon.settings.get(`state:${state}:token`,
+            CLIENT_KEY);
+    }
+
+    async setToken(state, code) {
+        return await this.addon.settings.set(`state:${state}:token`, code,
+            CLIENT_KEY);
+    }
+
+    async delToken(state) {
+        return await this.addon.settings.del(`state:${state}:token`,
+            CLIENT_KEY);
     }
 }
 
