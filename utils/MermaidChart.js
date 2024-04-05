@@ -154,7 +154,7 @@ class MermaidChart {
             throw new OAuthError(`invalid_token ${tokenResponse.status} ${tokenResponse.statusText}`);
         }
 
-        return (await tokenResponse.json()).data.access_token;
+        return (await tokenResponse.json()).access_token;
     }
 
     async getUser(accessToken) {
