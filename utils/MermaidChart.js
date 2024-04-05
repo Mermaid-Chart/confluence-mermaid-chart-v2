@@ -147,10 +147,11 @@ class MermaidChart {
                 headers: {
                     'Content-type': 'application/json',
                 },
-            });
+            }
+        );
 
-        if (tokenResponse.statusCode !== 200) {
-            throw new OAuthError('invalid_token');
+        if (!tokenResponse.ok) {
+            throw new OAuthError(`invalid_token ${tokenResponse.status} ${tokenResponse.statusText}`);
         }
 
         return (await tokenResponse.json()).data.access_token;
