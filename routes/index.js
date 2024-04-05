@@ -43,6 +43,7 @@ export default function routes(app, addon) {
       MC_BASE_URL: MC_BASE_URL,
       mcAccessToken: user ? access_token : '',
       loginUrl: (await mermaidAPI.getAuthorizationData()).url,
+      debug: JSON.stringify(mermaidAPI.pendingStates),
     });
   });
 
@@ -56,7 +57,8 @@ export default function routes(app, addon) {
 
     res.render("authCallback.hbs", {
       accessToken,
-      errorMessage
+      errorMessage,
+      debug: JSON.stringify(mermaidAPI.pendingStates),
     })
 
   })
