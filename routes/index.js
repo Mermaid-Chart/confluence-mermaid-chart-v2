@@ -41,9 +41,13 @@ export default function routes(app, addon) {
       user = access_token ? await mermaidAPI.getUser(access_token) : undefined
     } catch (e) {}
 
+    const auth = user ? {} : await mermaidAPI.getAuthorizationData()
+
     res.render("editor.hbs", {
       MC_BASE_URL: MC_BASE_URL,
       mcAccessToken: user ? access_token : '',
+      loginURL: auth.url,
+      loginState: auth.state
     });
   });
 
@@ -52,17 +56,15 @@ export default function routes(app, addon) {
   })
 
   app.get("/callback", async (req, res) => {
-    let accessToken, errorMessage;
+    let errorMessage;
     try {
-      accessToken = await mermaidAPI.handleAuthorizationResponse(req.query)
+      await mermaidAPI.handleAuthorizationResponse(req.query)
     } catch (e) {
       errorMessage = e.message;
     }
 
     res.render("authCallback.hbs", {
-      accessToken,
       errorMessage,
-      debug: JSON.stringify(mermaidAPI.pendingStates),
     })
 
   })

@@ -3,13 +3,13 @@ import fetch from 'node-fetch';
 import {getEncodedSHA256Hash} from './index.js';
 
 const defaultBaseURL = 'https://test.mermaidchart.com';
-const authorizationURLTimeout = 60000;
 
 class MermaidChart {
     clientID;
     baseURL;
     axios;
     pendingStates = {};
+    accessTokenStore = {};
     redirectURI;
     URLS = {
         oauth: {
@@ -105,10 +105,9 @@ class MermaidChart {
             scope: scope ?? 'email',
         };
 
-        // Deletes the state after 60 seconds
-        // setTimeout(() => {
-        //     delete this.pendingStates[stateID];
-        // }, authorizationURLTimeout);
+        setTimeout(() => {
+            delete this.pendingStates[stateID];
+        }, 5 * 60 * 1000);
 
         const url = `${this.baseURL}${this.URLS.oauth.authorize(params)}`;
         return {
@@ -154,7 +153,7 @@ class MermaidChart {
             throw new OAuthError(`invalid_token ${tokenResponse.status} ${tokenResponse.statusText}`);
         }
 
-        return (await tokenResponse.json()).access_token;
+        this.accessTokenStore[state] = (await tokenResponse.json()).access_token;
     }
 
     async getUser(accessToken) {

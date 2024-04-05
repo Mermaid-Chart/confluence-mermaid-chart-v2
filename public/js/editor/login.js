@@ -26,6 +26,11 @@ export function Login({onLogin}) {
                 }
             }
         });
+        const bc = new BroadcastChannel("mc")
+        bc.onmessage = (event) => {
+            console.log('event', event);
+            // handle event.data posted from your popup
+        }
     }, []);
 
     const onLoginClick = () => {
@@ -37,9 +42,15 @@ export function Login({onLogin}) {
         options += ',height=' + height;
         options += ',top=' + top;
         options += ',left=' + left;
-        const windowObjectReference = window.open('/login', 'loginWindow',
+        const windowObjectReference = window.open(loginURL, 'loginWindow',
             options);
         windowObjectReference.focus();
+
+        const int = setInterval(() => {
+            console.log(windowObjectReference);
+            // clearInterval(int);
+        }, 1000)
+
         return false;
     };
 

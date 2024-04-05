@@ -7,12 +7,13 @@
         Please try again later
     {{else}}
         Redirecting...
+        <script type="text/javascript">
+            const bc = new BroadcastChannel("mc")
+            bc.postMessage("data to be handled on your opener")
+            // window.close();
+        </script>
     {{/if}}
 </div>
-<script type="text/javascript">
-    window.opener.postMessage({action: 'token', data: '{{accessToken}}'});
-    window.close();
-</script>
 <style>
     .container {
         height: 100%;
