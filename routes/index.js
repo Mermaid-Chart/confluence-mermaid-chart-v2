@@ -42,7 +42,7 @@ export default function routes(app, addon) {
     } catch (e) {}
 
     if (!user) {
-      return res.redirect((await mermaidAPI.getAuthorizationData()).url).end();
+      return res.redirect((await mermaidAPI.getAuthorizationData()).url);
     }
 
     res.render("editor.hbs", {
