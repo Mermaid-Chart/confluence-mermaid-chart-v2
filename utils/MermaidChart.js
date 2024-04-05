@@ -6,8 +6,6 @@ const defaultBaseURL = 'https://test.mermaidchart.com';
 const authorizationURLTimeout = 60000;
 
 class MermaidChart {
-    static instance;
-
     clientID;
     baseURL;
     axios;
@@ -63,11 +61,6 @@ class MermaidChart {
     };
 
     constructor({clientID, baseURL, redirectURI}) {
-        if (MermaidChart.instance) {
-            return MermaidChart.instance;
-        }
-        MermaidChart.instance = this;
-
         this.clientID = clientID;
         this.setBaseURL(baseURL || defaultBaseURL);
         if (redirectURI) {
