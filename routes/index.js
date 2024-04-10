@@ -49,9 +49,11 @@ export default function routes(app, addon) {
     }
     await mermaidAPI.delToken(req.query.state);
 
+    const user = await mermaidAPI.getUser(token)
+
     try {
       await saveToken(req.context.http, req.context.userAccountId, token)
-      return res.json({ token }).end();
+      return res.json({ token, user }).end();
     } catch (e) {
       console.error(e)
       res.status(503).end();

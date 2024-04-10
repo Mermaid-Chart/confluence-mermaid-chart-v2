@@ -9,9 +9,11 @@ const html = htm.bind(h);
 
 function App() {
     const [accessToken, setAccessToken] = useState(mcAccessToken);
+    const [user, setUser] = useState(loggedUser);
 
-    const onLogin = (token) => {
+    const onLogin = (token, user) => {
         setAccessToken(token);
+        setUser(user);
     }
     const onLogout = async () => {
         await fetch('/logout', {

@@ -1,34 +1,10 @@
 import {h} from 'https://esm.sh/preact';
-import {useEffect, useState} from 'https://esm.sh/preact/hooks';
 import htm from 'https://esm.sh/htm';
 
 const html = htm.bind(h);
 let timeout;
 
 export function Login({onLogin}) {
-    const [error, setError] = useState('');
-    useEffect(() => {
-        window.addEventListener('message', async (e) => {
-            const action = e.data.action;
-            if (action === 'token') {
-                const token = e.data.data;
-                const res = await fetch('/token', {
-                    method: 'post',
-                    body: JSON.stringify({token}),
-                    headers: {
-                        Authorization: `JWT ${JWTToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                if (res.status !== 201) {
-                    setError('Something went wrong. Please try later');
-                } else {
-                    onLogin(token);
-                }
-            }
-        });
-    }, []);
-
     const onLoginClick = () => {
         const width = 500;
         const height = 650;
@@ -49,7 +25,8 @@ export function Login({onLogin}) {
                 },
             });
             if (res.ok) {
-                onLogin((await res.json()).token)
+                const body = await res.json();
+                onLogin(body.token, body.user);
             } else {
                 timeout = setTimeout(callback, 500);
             }
@@ -65,9 +42,8 @@ export function Login({onLogin}) {
 
     return html`
         <div id="login-container">
-            <img src="/icon_80x80.png" alt="MermaidChart" />
+            <img src="/icon_80x80.png" class="logo" alt="MermaidChart" />
             <button id="login-button" onClick="${onLoginClick}">
-                ${error ? html`<h3 class="error">${error}</h3>` : ''}
                 <img src="/enter.svg" alt="Login" width="200"/>
                 <span>Login into MermaidChart</span>
             </button>
