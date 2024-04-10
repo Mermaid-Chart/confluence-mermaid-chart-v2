@@ -37,8 +37,9 @@ window.CP.saveData({
 - **username**: Use the email address of your Atlassian [account](https://confluence.atlassian.com/cloud/atlassian-account-for-users-873871199.html).
 - **password**: Specify the [API token](https://confluence.atlassian.com/x/Vo71Nw).
 - **authtoken**: [ngrock auth token](https://dashboard.ngrok.com/get-started/your-authtoken)
-3. Set up environment variable with mermaid diagram selection page url:
+3. Set up environment variables:
 ```
-MC_EDITOR_URL=https://www.mermaidchart.com/selection
+MC_CLIENT_ID=839d35ba-cfee-4c98-8cee-88f2d2caa0c4
+MC_BASE_URL=https://test.mermaidchart.com
 ```
 4. Start application `npm run start`
