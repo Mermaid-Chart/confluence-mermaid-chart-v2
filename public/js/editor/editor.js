@@ -3,7 +3,6 @@ import {useState} from 'https://esm.sh/preact/hooks';
 import htm from 'https://esm.sh/htm';
 import {Login} from './login.js';
 import {Form} from './form.js';
-import {Header} from './header.js';
 
 const html = htm.bind(h);
 
@@ -23,6 +22,7 @@ function App() {
             },
         });
         setAccessToken(undefined)
+        setUser(null)
     }
 
     if (!accessToken) {
@@ -32,11 +32,8 @@ function App() {
     }
 
     return html`
-        <${Fragment}>
-            <${Header} user="${user}" onLogout="${onLogout}" />
-            <${Form} mcAccessToken="${accessToken}"/>
-        </Fragment>
-        
+        <${Form} user="${user}" onLogout="${onLogout}"
+                 mcAccessToken="${accessToken}"/>
     `;
 }
 

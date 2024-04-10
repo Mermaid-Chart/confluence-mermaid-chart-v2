@@ -1,12 +1,13 @@
-import {h} from 'https://esm.sh/preact';
+import {h, Fragment} from 'https://esm.sh/preact';
 import {useEffect, useRef, useState} from 'https://esm.sh/preact/hooks';
 import htm from 'https://esm.sh/htm';
 import {IMAGE_SIZES} from '/js/constatnts.js';
 import {Diagram} from './diagram.js';
+import {Header} from './header.js';
 
 const html = htm.bind(h);
 
-export function Form({mcAccessToken}) {
+export function Form({mcAccessToken, user, onLogout}) {
     const [iframeURL, setIframeURL] = useState('');
 
     const onOpenFrame = (url) => {
@@ -71,43 +72,47 @@ export function Form({mcAccessToken}) {
     }
 
     return html`
-        <div class="wrapper">
-            <div class="form-container">
-                <div class="form-row">
-                    <label class="label">Caption</label>
-                    <div class="field">
-                        <input
-                                type="text"
-                                name="caption"
-                                value="${data.caption}"
-                                onInput="${(e) => setData((prev) => ({
-                                    ...prev,
-                                    caption: e.target.value,
-                                }))}"
-                        />
+        <${Fragment}>
+            <${Header} user="${user}" onLogout="${onLogout}"/>
+            <div class="wrapper">
+                <div class="form-container">
+                    <div class="form-row">
+                        <label class="label">Caption</label>
+                        <div class="field">
+                            <input
+                                    type="text"
+                                    name="caption"
+                                    value="${data.caption}"
+                                    onInput="${(e) => setData((prev) => ({
+                                        ...prev,
+                                        caption: e.target.value,
+                                    }))}"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label class="label">Diagram size</label>
+                        <div class="field">
+                            <select
+                                    name="size"
+                                    value="${data.size}"
+                                    onChange="${(e) => setData((prev) => ({
+                                        ...prev,
+                                        size: e.currentTarget.value,
+                                    }))}"
+                            >
+                                ${Object.keys(IMAGE_SIZES).
+                                        map((s) => html`
+                                            <option name="${s}">${s}</option>`)}
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <label class="label">Diagram size</label>
-                    <div class="field">
-                        <select
-                                name="size"
-                                value="${data.size}"
-                                onChange="${(e) => setData((prev) => ({
-                                    ...prev,
-                                    size: e.currentTarget.value,
-                                }))}"
-                        >
-                            ${Object.keys(IMAGE_SIZES).
-                                    map((s) => html`
-                                        <option name="${s}">${s}</option>`)}
-                        </select>
-                    </div>
+                <div class="diagram">
+                    <${Diagram} document=${data} onOpenFrame="${onOpenFrame}"
+                                mcAccessToken="${mcAccessToken}"/>
                 </div>
             </div>
-            <div class="diagram">
-                <${Diagram} document=${data} onOpenFrame="${onOpenFrame}" mcAccessToken="${mcAccessToken}"/>
-            </div>
-        </div>
+        </Fragment>
     `;
 }
