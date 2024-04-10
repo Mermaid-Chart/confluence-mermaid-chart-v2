@@ -18,7 +18,7 @@ iframe {
   justify-content: space-between;
   align-items: center;
   height: 40px;
-  margin-bottom: 16px;
+  padding: 16px 24px;
 }
 #header img.logo {
   height: 100%;
@@ -85,10 +85,11 @@ iframe {
   align-items: center;
   position: relative;
 }
-#login-container img {
+#login-container img.logo {
   position: absolute;
-  left: 24px;
-  top: 24px;
+  left: 16px;
+  top: 16px;
+  max-height: 50px;
 }
 #login-button {
   display: flex;

@@ -60,6 +60,7 @@ export default function routes(app, addon) {
 
   app.post("/logout", addon.checkValidToken(), async (req, res) => {
     await saveToken(req.context.http, req.context.userAccountId, '')
+    res.end();
   })
 
   app.get("/callback", async (req, res) => {
