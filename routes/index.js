@@ -35,7 +35,7 @@ export default function routes(app, addon) {
       mcAccessToken: user ? access_token : '',
       loginURL: auth.url,
       loginState: auth.state,
-      user: JSON.stringify(user)
+      user: user ? JSON.stringify(user) : 'null'
     });
   });
 
@@ -56,6 +56,10 @@ export default function routes(app, addon) {
       console.error(e)
       res.status(503).end();
     }
+  })
+
+  app.post("/logout", addon.checkValidToken(), async (req, res) => {
+    await saveToken(req.context.http, req.context.userAccountId, '')
   })
 
   app.get("/callback", async (req, res) => {

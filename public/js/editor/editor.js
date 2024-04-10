@@ -1,8 +1,9 @@
-import {h, render} from 'https://esm.sh/preact';
+import {h, render, Fragment} from 'https://esm.sh/preact';
 import {useState} from 'https://esm.sh/preact/hooks';
 import htm from 'https://esm.sh/htm';
 import {Login} from './login.js';
 import {Form} from './form.js';
+import {Header} from './header.js';
 
 const html = htm.bind(h);
 
@@ -12,6 +13,15 @@ function App() {
     const onLogin = (token) => {
         setAccessToken(token);
     }
+    const onLogout = async () => {
+        await fetch('/logout', {
+            method: 'post',
+            headers: {
+                Authorization: `JWT ${JWTToken}`,
+            },
+        });
+        setAccessToken(undefined)
+    }
 
     if (!accessToken) {
         return html`
@@ -20,7 +30,11 @@ function App() {
     }
 
     return html`
-        <${Form} mcAccessToken="${accessToken}"/>
+        <${Fragment}>
+            <${Header} user="${user}" onLogout="${onLogout}" />
+            <${Form} mcAccessToken="${accessToken}"/>
+        </Fragment>
+        
     `;
 }
 

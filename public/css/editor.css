@@ -13,6 +13,25 @@ iframe {
   outline: none;
 }
 
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  margin-bottom: 16px;
+}
+#header img.logo {
+  height: 100%;
+}
+
+#header button.logout {
+  margin-left: 16px;
+  border: none;
+  background: aliceblue;
+  font-weight: bold;
+  padding: 4px 8px;
+}
+
 .wrapper {
   display: flex;
   flex-flow: row nowrap;
