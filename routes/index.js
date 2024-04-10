@@ -34,7 +34,8 @@ export default function routes(app, addon) {
       MC_BASE_URL: MC_BASE_URL,
       mcAccessToken: user ? access_token : '',
       loginURL: auth.url,
-      loginState: auth.state
+      loginState: auth.state,
+      user: JSON.stringify(user)
     });
   });
 

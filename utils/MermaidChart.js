@@ -185,20 +185,20 @@ class MermaidChart {
         document,
         theme = 'light',
     ) {
-        const png = await this.axios.get < string > (
+        const png = await fetch(
             this.URLS.raw(document, theme).png
         );
-        return png.data;
+        return await png.text();
     }
 
     async getRawDocument(
         document,
         theme = 'light',
     ) {
-        const raw = await this.axios.get < string > (
+        const raw = await fetch(
             this.URLS.raw(document, theme).svg
         );
-        return raw.data;
+        return await raw.text();
     }
 
     async getCodeVerifier(state) {

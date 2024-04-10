@@ -23,12 +23,12 @@ export function Form({mcAccessToken}) {
     }, [Object.values(data)]);
 
     useEffect(() => {
-        if (data.documentID) {
+        if (data.documentID && !iframeURL) {
             window.AP.dialog.getButton('submit').enable();
         } else {
             window.AP.dialog.getButton('submit').disable();
         }
-    }, [data.documentID]);
+    }, [data.documentID, iframeURL]);
 
     useEffect(() => {
         window.AP.confluence.getMacroBody((macroBody) => {

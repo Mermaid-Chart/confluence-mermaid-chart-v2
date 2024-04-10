@@ -65,10 +65,11 @@ export function Login({onLogin}) {
 
     return html`
         <div id="login-container">
+            <img src="/icon_80x80.png" alt="MermaidChart" />
             <button id="login-button" onClick="${onLoginClick}">
                 ${error ? html`<h3 class="error">${error}</h3>` : ''}
                 <img src="/enter.svg" alt="Login" width="200"/>
-                <span>Login</span>
+                <span>Login into MermaidChart</span>
             </button>
         </div>
     `;
