@@ -24,6 +24,7 @@ iframe {
 }
 
 #header button.logout {
+  margin-left: 16px;
 }
 
 .wrapper {
@@ -68,10 +69,14 @@ iframe {
   border-radius: 8px;
   max-height: 400px;
   display: flex;
+  justify-content: center;
 }
 #diagram-container .diagram .image {
   display: flex;
   justify-content: center;
+}
+#diagram-container .diagram .image img {
+  width: 100%;
 }
 #diagram-container .select-buttons {
   display: flex;
