@@ -35,4 +35,5 @@ button {
     color: white;
     background-color: rgb(0, 82, 204);
     padding: 6px 12px;
+    font-weight: bold;
 }
