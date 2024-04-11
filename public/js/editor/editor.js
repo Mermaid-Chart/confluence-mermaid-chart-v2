@@ -1,4 +1,4 @@
-import {h, render, Fragment} from 'https://esm.sh/preact';
+import {h, render} from 'https://esm.sh/preact';
 import {useState} from 'https://esm.sh/preact/hooks';
 import htm from 'https://esm.sh/htm';
 import {Login} from './login.js';

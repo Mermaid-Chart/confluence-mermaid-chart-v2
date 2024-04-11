@@ -9,6 +9,7 @@ const html = htm.bind(h);
 
 export function Form({mcAccessToken, user, onLogout}) {
     const [iframeURL, setIframeURL] = useState('');
+    const [initialized, setinitialized] = useState(false);
 
     const onOpenFrame = (url) => {
         setIframeURL(url);
@@ -37,6 +38,7 @@ export function Form({mcAccessToken, user, onLogout}) {
         });
         window.AP.confluence.getMacroData(({__bodyContent: _, ...params}) => {
             setData((data) => ({...data, ...params}));
+            setinitialized(true);
         });
         window.AP.events.on('dialog.submit', async () => {
             const {diagramCode: _, ...saveData} = dataRef.current;
@@ -51,6 +53,11 @@ export function Form({mcAccessToken, user, onLogout}) {
             const action = e.data.action;
             switch (action) {
                 case 'cancel':
+                    setIframeURL('');
+                    break;
+
+                case 'logout':
+                    onLogout();
                     setIframeURL('');
                     break;
 
@@ -71,11 +78,22 @@ export function Form({mcAccessToken, user, onLogout}) {
         `;
     }
 
+    if (!initialized) {
+        return html`
+            <div id="page-spinner">
+                <img src="/spinner.svg" alt="Loading" />
+            </div>
+        `
+    }
+
+    //<${Header} user="${user}" onLogout="${onLogout}"/>
+
     return html`
         <${Fragment}>
-            <${Header} user="${user}" onLogout="${onLogout}"/>
             <div class="wrapper">
-                <div class="form-container">
+                <${Diagram} document=${data} onOpenFrame="${onOpenFrame}"
+                            mcAccessToken="${mcAccessToken}"/>
+                <div id="form-container">
                     <div class="form-row">
                         <label class="label">Caption</label>
                         <div class="field">
@@ -107,10 +125,6 @@ export function Form({mcAccessToken, user, onLogout}) {
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="diagram">
-                    <${Diagram} document=${data} onOpenFrame="${onOpenFrame}"
-                                mcAccessToken="${mcAccessToken}"/>
                 </div>
             </div>
         </Fragment>

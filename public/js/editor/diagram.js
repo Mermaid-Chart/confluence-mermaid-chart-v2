@@ -1,5 +1,6 @@
-import {Fragment, h} from 'https://esm.sh/preact';
+import {h} from 'https://esm.sh/preact';
 import htm from 'https://esm.sh/htm';
+import {useEffect} from 'https://esm.sh/preact/hooks';
 
 const html = htm.bind(h);
 
@@ -23,19 +24,29 @@ export function Diagram({document, onOpenFrame, mcAccessToken}) {
         return false;
     };
 
-    const editButton = html`
-        <button type="button" onClick="${onEdit}">Edit diagram</button>`;
+    const onSelect = () => {
+        onOpenFrame(buildUrl(
+            `/app/plugins/confluence/select`))
+        return false;
+    };
+
+    useEffect(() => {
+        if (!document.documentID) {
+            onSelect();
+        }
+    }, [document])
 
     return html`
-        <${Fragment}>
-            ${image}
-            <div class="select ${image ? 'selected' : ''}">
-                ${image ? editButton : ''}
-                <button type="button" onClick="${() => onOpenFrame(buildUrl(
-                        `/app/plugins/confluence/select`))}">
-                    ${image ? 'Replace' : 'Select'} diagram
+        <div id="diagram-container">
+            <div class="diagram">
+                ${image}
+            </div>
+            <div class="select-buttons">
+                <button type="button" onClick="${onEdit}">Edit current diagram</button>
+                <button type="button" onClick="${onSelect}">
+                    Select different diagram
                 </button>
             </div>
-        </${Fragment}>
+        </div>
     `;
 }

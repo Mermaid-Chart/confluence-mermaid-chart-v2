@@ -33,68 +33,76 @@ iframe {
 
 .wrapper {
   display: flex;
-  flex-flow: row nowrap;
-  max-width: 600px;
+  flex-flow: column nowrap;
+  max-width: 450px;
   margin: 0 auto;
   padding: 16px 0;
 }
 
-.form-container {
-  flex-basis: 50%;
-  border-right: solid var(--border-color) 1px;
-}
-
-.diagram {
-  flex-basis: 50%;
+#form-container {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
-  display: flex;
-  flex-flow: column nowrap;
-  gap: 20px;
-}
-
-.diagram .select, .diagram .image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 16px;
 }
 
-.diagram .select button {
-  padding: 20px 15px;
+#form-container .form-row {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 8px;
 }
-.diagram .selected button {
-   border-radius: 4px;
-   padding: 10px 5px;
- }
-.diagram .image {
+#form-container .form-row .label {
+  color: var(--label-color);
+  font-weight: bold;
+  flex-basis: 50%;
+}
+#form-container .form-row .field {
+  flex-grow: 1;
+}
+
+#diagram-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  justify-content: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+.diagram {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+.diagram img {
+  width: 100%;
+}
+#diagram-container .select-buttons {
+  display: flex;
+  gap: 16px;
+  padding: 0 32px;
+  justify-content: center;
+}
+
+#page-spinner {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.diagram.image img {
   width: 100%;
+  height: 100%;
 }
-
-
 
 #login-container {
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
+  gap: 32px;
+  font-weight: bold;
+  width: 210px;
+  margin: 0 auto;
 }
 #login-container img.logo {
-  position: absolute;
-  left: 16px;
-  top: 16px;
   max-height: 50px;
 }
 #login-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: transparent;
-  border: none;
-  padding: 0;
 }

@@ -4,7 +4,6 @@ class CPlugin {
     window.parent.postMessage(data, "*");
   }
   saveData(data) {
-    console.log("Incoming, save data:", data);
     if (!data.documentID || !data.diagramCode) {
       throw new Error("Invalid saving diagram data");
     }
@@ -20,6 +19,11 @@ class CPlugin {
   }
   getData() {
     return window.name ? JSON.parse(window.name) : {};
+  }
+  invalidateToken() {
+    this._sendMessage({
+      action: "logout",
+    });
   }
 }
 
