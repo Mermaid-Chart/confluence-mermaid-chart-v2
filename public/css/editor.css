@@ -15,7 +15,7 @@ iframe {
 
 #header {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
   padding: 16px 24px;
 }
@@ -42,7 +42,7 @@ iframe {
 #form-container {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 20px 0;
   gap: 16px;
 }
 
@@ -68,12 +68,14 @@ iframe {
   padding-bottom: 16px;
   border-bottom: 1px solid var(--border-color);
 }
-.diagram {
+#diagram-container .diagram {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   max-height: 400px;
+  display: flex;
 }
-.diagram img {
+#diagram-container .diagram .image {
+  display: flex;
   width: 100%;
 }
 #diagram-container .select-buttons {

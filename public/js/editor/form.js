@@ -26,9 +26,11 @@ export function Form({mcAccessToken, user, onLogout}) {
 
     useEffect(() => {
         if (data.documentID && !iframeURL) {
-            window.AP.dialog.getButton('submit').enable();
+            // window.AP.dialog.getButton('submit').enable();
+            window.AP.dialog.getButton('submit').show();
         } else {
-            window.AP.dialog.getButton('submit').disable();
+            // window.AP.dialog.getButton('submit').disable();
+            window.AP.dialog.getButton('submit').hide();
         }
     }, [data.documentID, iframeURL]);
 
@@ -86,10 +88,9 @@ export function Form({mcAccessToken, user, onLogout}) {
         `
     }
 
-    //<${Header} user="${user}" onLogout="${onLogout}"/>
-
     return html`
         <${Fragment}>
+            <${Header} user="${user}" onLogout="${onLogout}"/>
             <div class="wrapper">
                 <${Diagram} document=${data} onOpenFrame="${onOpenFrame}"
                             mcAccessToken="${mcAccessToken}"/>
