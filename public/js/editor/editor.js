@@ -23,6 +23,7 @@ function App() {
         });
         setAccessToken(undefined)
         setUser(null)
+        window.location.reload();
     }
 
     if (!accessToken) {
