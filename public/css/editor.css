@@ -15,16 +15,32 @@ iframe {
 
 #header {
   display: flex;
-  justify-content: end;
+  justify-content: start;
+  gap: 8px;
   align-items: center;
   padding: 0 24px;
 }
 #header img.logo {
   height: 40px;
 }
-
-#header button.logout {
-  margin-left: 16px;
+#header .settings {
+  position: relative;
+  width: 24px;
+  cursor: pointer;
+}
+#header .settings img {
+  width: 100%;
+}
+#header .settings button.logout {
+  position: absolute;
+  transform: translateY(85%);
+  display: none;
+  white-space: nowrap;
+  bottom: 0;
+  left: 0;
+}
+#header .settings:hover button.logout {
+  display: block;
 }
 
 .wrapper {
