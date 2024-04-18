@@ -36,16 +36,16 @@ export function Form({mcAccessToken, user, onLogout}) {
 
     useEffect(() => {
         window.AP.confluence.getMacroBody((macroBody) => {
-            setData((data) => ({...data, diagramCode: macroBody}));
+            setData((data) => ({...data, diagramImage: macroBody}));
         });
         window.AP.confluence.getMacroData(({__bodyContent: _, ...params}) => {
             setData((data) => ({...data, ...params}));
             setinitialized(true);
         });
         window.AP.events.on('dialog.submit', async () => {
-            const {diagramCode: _, ...saveData} = dataRef.current;
+            const {diagramImage: _, ...saveData} = dataRef.current;
             await window.AP.confluence.saveMacro(saveData,
-                dataRef.current.diagramCode);
+                dataRef.current.diagramImage);
 
             window.AP.confluence.closeMacroEditor();
         });
