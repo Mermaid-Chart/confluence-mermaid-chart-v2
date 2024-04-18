@@ -9,12 +9,14 @@
         align-items: center;
         flex-direction: column;
     }
+    #content #image img {
+        width: 100%;
+    }
 </style>
 <script type="module">
     import {IMAGE_SIZES} from '/js/constatnts.js';
     const imageContainer = document.getElementById('image');
     AP.confluence.getMacroBody((macroBody) => {
-        imageContainer.innerHTML = macroBody;
         const img = document.createElement("img")
         img.src = 'data:image/x-png;base64, ' + macroBody;
         imageContainer.appendChild(img);
