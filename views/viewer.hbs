@@ -15,18 +15,14 @@
     const imageContainer = document.getElementById('image');
     AP.confluence.getMacroBody((macroBody) => {
         imageContainer.innerHTML = macroBody;
+        const img = document.createElement("img")
+        img.src = 'data:image/x-png;base64, ' + macroBody;
+        imageContainer.appendChild(img);
     });
     AP.confluence.getMacroData(async (data) => {
         if (data.caption) {
             document.getElementById('caption').innerText = data.caption;
         }
         imageContainer.style.width = `${IMAGE_SIZES[data.size || "small"].width}px`;
-
-        // const container = document.getElementById('image');
-        // const img = document.createElement("img")
-        // img.src = '/diagram?' + (new URLSearchParams({ ...data, jwt: "{{token}}" }).toString())
-        // img.alt = data.title;
-        // img.width = IMAGE_SIZES[data.size].width;
-        // container.appendChild(img);
     });
 </script>
