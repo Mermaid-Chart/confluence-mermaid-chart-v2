@@ -3,7 +3,7 @@
   "name": "Mermaid chart application",
   "description": "Mermaid chart application",
   "//baseUrl": "{{localBaseUrl}}",
-  "baseUrl": "https://confluencestage.mermaidchart.com",
+  "baseUrl": "https://confluence.mermaidchart.com",
   "authentication": {
     "type": "jwt"
   },
