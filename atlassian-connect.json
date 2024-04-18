@@ -1,9 +1,19 @@
 {
-  "key": "mermaid-chart-plugin",
-  "name": "Mermaid chart application",
+  "key": "mermaid-chart-app-for-confluence",
+  "name": "Mermaid Chart for Confluence",
   "description": "Official Mermaid Chart App for Confluence",
-  "//baseUrl": "{{localBaseUrl}}",
   "baseUrl": "https://confluence.mermaidchart.com",
+  "vendor": {
+    "name": "Mermaid Chart Inc",
+    "url": "http://www.mermaidchart.com",
+    "_links": {
+      "learnMore": "https://www.mermaidchart.com/plugins"
+    }
+  },
+  "links": {
+    "self": "https://confluence.mermaidchart.com",
+    "artifact": "https://confluence.mermaidchart.com"
+  },
   "authentication": {
     "type": "jwt"
   },
