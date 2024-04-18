@@ -83,7 +83,6 @@ iframe {
 #diagram-container .diagram {
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  max-height: 400px;
   display: flex;
   justify-content: center;
 }
