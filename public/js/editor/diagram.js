@@ -9,7 +9,7 @@ export function Diagram({document, onOpenFrame, mcAccessToken}) {
     if (document.documentID) {
         image = html`
             <div class="image">
-                <img src="data:image/x-png,${document.diagramImage}" alt="${document.title}"/>
+                <img src="data:image/x-png;base64, ${document.diagramImage}" alt="${document.title}"/>
             </div>`;
     }
 
