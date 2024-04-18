@@ -45,7 +45,7 @@ export function Login({onLogin}) {
             <img src="/icon_80x80.png" class="logo" alt="MermaidChart" />
             <div>To access your diagram, log into your Mermaid Chart account</div>
             <button id="login-button" onClick="${onLoginClick}">
-                Log in
+                Connect to MermaidChart
             </button>
         </div>
     `;

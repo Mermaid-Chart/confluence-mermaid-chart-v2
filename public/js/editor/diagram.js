@@ -7,10 +7,9 @@ const html = htm.bind(h);
 export function Diagram({document, onOpenFrame, mcAccessToken}) {
     let image = '';
     if (document.documentID) {
-        const svg = encodeURIComponent(document.diagramCode);
         image = html`
             <div class="image">
-                <img src="data:image/svg+xml,${svg}" alt="${document.title}"/>
+                <img src="data:image/x-png;base64, ${document.diagramImage}" alt="${document.title}"/>
             </div>`;
     }
 
