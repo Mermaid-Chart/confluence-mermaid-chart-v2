@@ -1,7 +1,7 @@
 {
-  "key": "mermaid-chart-app",
+  "key": "mermaid-chart-plugin",
   "name": "Mermaid chart application",
-  "description": "Mermaid chart application",
+  "description": "Official Mermaid Chart App for Confluence",
   "//baseUrl": "{{localBaseUrl}}",
   "baseUrl": "https://confluence.mermaidchart.com",
   "authentication": {
