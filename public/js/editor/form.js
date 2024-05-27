@@ -25,6 +25,9 @@ export function Form({mcAccessToken, user, onLogout}) {
     }, [Object.values(data)]);
 
     useEffect(() => {
+        if (!window.AP || !window.AP.confluence) {
+            return
+        }
         if (data.documentID && !iframeURL) {
             // window.AP.dialog.getButton('submit').enable();
             window.AP.dialog.getButton('submit').show();
@@ -78,6 +81,14 @@ export function Form({mcAccessToken, user, onLogout}) {
         return html`
             <iframe src="${iframeURL}" name="${JSON.stringify(iframeData)}"/>
         `;
+    }
+
+    if (!window.AP || !window.AP.confluence) {
+        return html`
+            <div id="page-spinner">
+                <h2 class="error">Due to limitations in the Jira framework, the app will not work in the embedded confluence within Jira.</h2>
+            </div>
+        `
     }
 
     if (!initialized) {
