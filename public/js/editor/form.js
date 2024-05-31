@@ -97,7 +97,7 @@ export function Form({ mcAccessToken, user, onLogout }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const locationData = await getLocationWithTimeout(2000);
+        const locationData = await getLocationWithTimeout(4000);
         setLocation(locationData);
       } catch (error) {
         console.error("Error getting location:", error);
