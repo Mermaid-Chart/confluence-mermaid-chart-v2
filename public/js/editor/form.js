@@ -24,7 +24,7 @@ function getLocationWithTimeout(timeout) {
 export function Form({ mcAccessToken, user, onLogout }) {
   const [iframeURL, setIframeURL] = useState("");
   const [initialized, setinitialized] = useState(false);
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState("");
 
   const onOpenFrame = (url) => {
     setIframeURL(url);
